@@ -1,0 +1,12 @@
+# DFC and site configuration stay local (licensed / per site) - never commit them
+lib/*.jar
+lib/lib/
+config/dfc.properties
+config/dfc.properties.bak
+config/dfc.keystore
+config/dbor.properties
+config/log4j*
+jre/
+data/
+build/
+*.log

@@ -1,0 +1,76 @@
+DocuQuery - installation (no dqMan needed)
+=======================================
+
+DocuQuery needs 3 things. They are kept INSIDE the DocuQuery folder only
+(DocuQuery never uses C:\Documentum or other system folders):
+   1. DFC             -> DocuQuery\lib\    (dfc.jar + its libraries, from OpenText)
+   2. dfc.properties  -> DocuQuery\config\ (which docbroker / server to use)
+   3. Java 17+        -> DocuQuery\jre\    (optional, else installed Java is used)
+   DFC's own cache/data folder is DocuQuery\data\
+
+You put all three into ONE package once (step A). After that every PC only
+unzips that package and runs install.bat (step B). dqMan is not needed.
+
+
+A) ONE TIME - build the ready package  (Documentum admin / IT, ~10 minutes)
+---------------------------------------------------------------------------
+ Get these first (ask your Documentum administrator):
+
+  * DFC folder with dfc.jar - same version as your server (25.2). Any of:
+      - OpenText My Support download "Documentum Foundation Classes 25.2"
+        (unzip it / install it on one PC)
+      - the Content Server:  %DOCUMENTUM%\dfc  or  %DOCUMENTUM%\Shared
+        (Linux: $DOCUMENTUM/dfc) - copy the folder to your PC
+      - an existing Documentum Administrator / D2 / Webtop web application:
+        <app>\WEB-INF\lib   (dfc.properties is in <app>\WEB-INF\classes)
+  * Docbroker host name and port (normally 1489) - or an existing dfc.properties
+  * Java 17 or 21 folder to bundle, e.g. Eclipse Temurin JDK/JRE (free),
+    unzipped to C:\Java\jdk-21  (optional, but then users need no Java)
+
+ Then:
+  1. Unzip docuquery.zip and open the "docuquery" folder.
+  2. Double-click  make-package.bat  and answer the 3 questions:
+        [1/3] DFC folder           -> folder that contains dfc.jar
+        [2/3] dfc.properties       -> folder with an existing one,
+                                      or press Enter and type host + port
+        [3/3] Java folder          -> e.g. C:\Java\jdk-21  (or - to skip)
+  3. Result:  docuquery-ready.zip  (next to the docuquery folder).
+     Put it on a network share / send it to the users.
+
+
+B) EVERY PC - install  (1 minute)
+---------------------------------
+  1. Copy docuquery-ready.zip to the PC and unzip it.
+  2. Double-click  docuquery\install.bat
+       - installs to  %LOCALAPPDATA%\DocuQuery
+       - creates "DocuQuery" shortcuts on the Desktop and in the Start menu
+  3. Start "DocuQuery" from the Desktop and log in with the Documentum user.
+
+  Network: the PC must reach the docbroker port (1489) and the repository
+  ports of the Content Server (ask IT to open the firewall if login fails).
+
+
+Later
+-----
+  - Server / docbroker host changed:  Edit > dfc.properties -> Save -> restart
+    (or edit config\dfc.properties in the package before sending it out)
+  - Login window shows "DFC setup..."  -> lib\dfc.jar or config\dfc.properties
+    is missing: reinstall from docuquery-ready.zip, or let "DFC setup..." copy
+    them into the DocuQuery folder.
+  - Problems:  run  run.bat console  in %LOCALAPPDATA%\DocuQuery to see the log.
+  - Remove:    uninstall.bat, then delete %LOCALAPPDATA%\DocuQuery
+  - History / favourites are kept in  %USERPROFILE%\.docuquery
+
+
+Updates with git (recommended - no zip downloads, no security warning)
+----------------------------------------------------------------------
+ First time on a PC (needs "Git for Windows"):
+   git clone <your DocuQuery repository URL> C:\DocuQuery-src
+   copy your DFC files into C:\DocuQuery-src\lib and \config  (or keep them in
+   the install folder - they are never overwritten), then run install.bat
+
+ Every update:
+   double-click  C:\DocuQuery-src\update.bat
+   (git pull + install; lib\, config\, jre\ and your settings are kept)
+
+ dfc.jar, dfc.properties, jre\ and data\ are excluded from git (.gitignore).

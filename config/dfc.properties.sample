@@ -1,0 +1,16 @@
+# Sample DFC configuration for DocuQuery.
+# Easiest: copy the dfc.properties that dqMan / your other DFC clients already use
+# (usually C:\Documentum\config\dfc.properties) into this folder as dfc.properties.
+
+# Docbroker (connection broker) of the EDMS repository
+dfc.docbroker.host[0]=your-docbroker-host
+dfc.docbroker.port[0]=1489
+
+# Global registry (BOF). Without these DFC still works but logs warnings.
+dfc.globalregistry.repository=EDMS
+dfc.globalregistry.username=dm_bof_registry
+# encrypt with:  java -cp dfc.jar com.documentum.fc.tools.RegistryPasswordUtils <password>
+dfc.globalregistry.password=
+
+# Local folder for DFC cache/data
+dfc.data.dir=C:/Documentum
